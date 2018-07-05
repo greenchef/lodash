@@ -1181,6 +1181,15 @@
         }
       }
       else {
+        // special case for ObjectID
+        if(a.constructor.name == "ObjectID" && b.constructor.name == "ObjectID") {
+          var err = new Error();
+
+          console.log("\n\x1b[31mLODASH MISUSE WARNING - Comparing ObjectId for equality is a bad idea.  See stack trace: ! \x1b[0m", err.stack);
+
+          return a.equals(b);
+        }
+
         // deep compare objects using `forIn`, instead of `forOwn`, to avoid `Object.keys`
         // which, in this case, is more costly
         forIn(b, function(value, key, b) {
